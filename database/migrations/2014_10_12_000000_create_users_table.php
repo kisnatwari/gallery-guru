@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('role');
+            $table->rememberToken();
             $table->timestamps();
         });
 
@@ -27,15 +28,13 @@ return new class extends Migration
                 'name' => 'Saroj',
                 'email' => 'sharma-S2@ulster.ac.uk',
                 'password' => bcrypt('password1234'),
-                'role' => 'user',
-                'created_at' => now()
+                'role' => 'user'
             ],
             [
                 'name' => 'admin',
                 'email' => 'admin@images-app.com',
                 'password' => bcrypt('admin'),
-                'role' => 'admin',
-                'created_at' => now()
+                'role' => 'admin'
             ]
         ]);
     }
