@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -15,11 +16,28 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
+            $table->string('role');
             $table->timestamps();
         });
+
+        // Insert initial user data
+        DB::table('users')->insert([
+            [
+                'name' => 'Saroj',
+                'email' => 'sharma-S2@ulster.ac.uk',
+                'password' => bcrypt('password1234'),
+                'role' => 'user',
+                'created_at' => now()
+            ],
+            [
+                'name' => 'admin',
+                'email' => 'admin@images-app.com',
+                'password' => bcrypt('admin'),
+                'role' => 'admin',
+                'created_at' => now()
+            ]
+        ]);
     }
 
     /**
