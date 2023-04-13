@@ -16,27 +16,32 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role');
             $table->rememberToken();
             $table->timestamps();
         });
 
-        // Insert initial user data
-        DB::table('users')->insert([
-            [
-                'name' => 'Saroj',
-                'email' => 'sharma-S2@ulster.ac.uk',
-                'password' => bcrypt('password1234'),
-                'role' => 'user'
-            ],
+        $defaultUsers = [
             [
                 'name' => 'admin',
                 'email' => 'admin@images-app.com',
                 'password' => bcrypt('admin'),
-                'role' => 'admin'
-            ]
-        ]);
+                'role' => 'admin',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'Saroj',
+                'email' => 'Sharma-S2@ulster.ac.uk',
+                'password' => bcrypt('password1234'),
+                'role' => 'user',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+        ];
+        DB::table('users')->insert($defaultUsers);
     }
 
     /**
