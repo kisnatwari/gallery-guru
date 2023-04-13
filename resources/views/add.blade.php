@@ -12,7 +12,7 @@
                     <div class="flex justify-between mb-3">
                         <h1 class="text-2xl">Image Gallery (Add Images) </h1>
                     </div>
-                    <form method="POST" enctype="multipart/form-data">
+                    <form method="POST" action="/images" enctype="multipart/form-data">
                         @csrf
                         <div class="grid grid-cols-5 gap-4">
                             <div class="col-span-2">
@@ -38,8 +38,24 @@
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                 Post Now
                             </button>
-                        </div>                        
+                        </div> 
+                        @if ($errors->any())
+                            <div class="bg-red-50 text-red-500 p-5 my-4 rounded-lg">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                       
                     </form>
+                    @if(session('success'))
+                        <div class="bg-green-700 text-white p-5 my-4 rounded-lg">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
                 </div>
             </div>
         </div>
@@ -55,6 +71,7 @@
             reader.onload = () => {
                 imageContainer.style.backgroundImage = `url(${reader.result})`;
                 imageContainer.style.backgroundSize = 'cover';
+                imageContainer.style.backgroundOrigin = 'center center';
                 const textHint = imageContainer.querySelector('strong');
                 textHint.style.display = reader.result ? 'none' : 'inline-block';
             };
