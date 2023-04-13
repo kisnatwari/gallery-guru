@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Contracts\View\View;
@@ -39,5 +40,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('images', ImageController::class);
+Route::resource('comments', CommentController::class);
 
 require __DIR__ . '/auth.php';

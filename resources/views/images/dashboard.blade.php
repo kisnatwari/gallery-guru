@@ -21,6 +21,16 @@
                             </a>
                         @endforeach
                     </div>
+                    @if(session('success'))
+                        <div class="bg-green-700 success_alert text-white p-5 my-4 rounded-lg">
+                            {{ session('success') }}
+                        </div>
+                        <script>
+                            setTimeout(() => {
+                                document.querySelector(".success_alert").remove();
+                            }, 3500);
+                        </script>
+                    @endif
                 </div>
             </div>
         </div>

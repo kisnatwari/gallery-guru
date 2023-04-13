@@ -6,14 +6,16 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        {{-- <x-application-logo class="block h-9 w-auto fill-current text-gray-800" /> --}}
+
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        <img src="{{asset('assets/images/gallery_guru.jpg')}}" alt="Logo" class="w-12 rounded-full mr-2">
+                        <span class="text-xl bg-gradient-to-tr from-red-600 to-yellow-500 text-transparent bg-clip-text">GalleryGuru</span>
                     </x-nav-link>
                 </div>
             </div>

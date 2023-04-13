@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
@@ -74,6 +76,9 @@ class ImageController extends Controller
             ->where('images.id', $id)
             ->first();
 
+        $comments = Comment::where('image_id', $id)->get();
+        $image['comments'] = $comments;
+
         Image::where('id', $id)->update(['views_count' => ++$image->views_count]);
 
         return view('images.image-view', compact('image'));
@@ -101,6 +106,28 @@ class ImageController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $image = Image::find($id);
+        if (auth()->user()->id == $image->user_id) {
+            Storage::delete('public/images/' . $image);
+            $image->delete();
+            session()->flash('success', 'Image deleted successfully');
+        } else {
+            session()->flash('error', 'Image Failed to be deleted');
+        }
+        return redirect('/dashboard');
     }
 }
+
+/* 
++-----------+---------------------------+------------------------+------------------+-------------------------------------------------------------------------+--------------+
+| Method    | URI                       | Name                   | Action           | Middleware                                                              | Resource     |
++-----------+---------------------------+------------------------+------------------+-------------------------------------------------------------------------+--------------+
+| GET       | /posts                    | posts.index            | App\Http\Controllers\PostController@index            | web        | posts        |
+| GET       | /posts/create             | posts.create           | App\Http\Controllers\PostController@create           | web        | posts        |
+| POST      | /posts                    | posts.store            | App\Http\Controllers\PostController@store            | web        | posts        |
+| GET       | /posts/{post}             | posts.show             | App\Http\Controllers\PostController@show             | web        | posts        |
+| GET       | /posts/{post}/edit        | posts.edit             | App\Http\Controllers\PostController@edit             | web        | posts        |
+| PUT/PATCH | /posts/{post}             | posts.update           | App\Http\Controllers\PostController@update           | web        | posts        |
+| DELETE    | /posts/{post}             | posts.destroy          | App\Http\Controllers\PostController@destroy          | web        | posts        |
++-----------+---------------------------+------------------------+------------------+-------------------------------------------------------------------------+--------------+
+ */
