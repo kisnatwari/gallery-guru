@@ -76,7 +76,12 @@ class ImageController extends Controller
             ->where('images.id', $id)
             ->first();
 
-        $comments = Comment::where('image_id', $id)->get();
+        //$comments = Comment::where('image_id', $id)->get();
+        $comments = Comment::join('users', 'comments.user_id', '=', 'users.id')
+            ->select('comments.*', 'users.name as user_name')
+            ->where('comments.image_id', $id)
+            ->get();
+
         $image['comments'] = $comments;
 
         Image::where('id', $id)->update(['views_count' => ++$image->views_count]);

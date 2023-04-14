@@ -48,11 +48,24 @@
                         </button>
                     </form>
                     <div>
-                        <h3 class="text-2xl text-gray-500">0 Comments....</h3>
+                        @if (count($image->comments) == 0)
+                            <h3 class="text-2xl text-gray-500">Be the first to comment...</h3>
+                        @endif
                         @foreach ($image->comments as $comment)
                             <div class="bg-gray-100 rounded-lg p-3 my-2">
-                                <div class="text-gray-600">{{ $comment->comment }}</div>
-                                <div class="text-gray-400 mt-1 text-sm">{{ $comment->created_at->diffForHumans() }}
+                                <div class="flex justify-start gap-3">
+                                    <img class="h-10 rounded-full"
+                                        src="https://www.gravatar.com/avatar/{{ md5($image['email']) }}?d=mp"
+                                        alt="{{ $image['name'] }}">
+                                    <div>
+                                        <div class="flex justify-start flex-wrap items-baseline gap-2">
+                                            <span class="text-gray-800 text-xl ">{{ $comment->user_name }}</span>
+                                            <span class="text-gray-400 text-sm">
+                                                {{ $comment->created_at->diffForHumans() }}
+                                            </span>
+                                        </div>
+                                        <div class="text-gray-600">{{ $comment->comment }}</div>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
