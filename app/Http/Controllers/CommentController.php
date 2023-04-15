@@ -33,7 +33,7 @@ class CommentController extends Controller
 
         $request->validate([
             'comment' => 'required|min:3|max:255',
-            'image_id' => 'required|exists:images,id'
+            'post_id' => 'required|exists:posts,id'
         ]);
 
         // Get the authenticated user ID
@@ -42,7 +42,7 @@ class CommentController extends Controller
         // Create a new Comment model instance with the request data
         $comment = new Comment([
             'user_id' => $user_id,
-            'image_id' => $request->input('image_id'),
+            'post_id' => $request->input('post_id'),
             'comment' => $request->input('comment'),
         ]);
 
@@ -61,8 +61,7 @@ class CommentController extends Controller
      */
     public function show(string $id)
     {
-        //
-        die("show");
+        return response(null, 200);
     }
 
     /**
@@ -70,8 +69,7 @@ class CommentController extends Controller
      */
     public function edit(string $id)
     {
-        //
-        die("edit");
+        return response(null, 200);
     }
 
     /**
@@ -79,8 +77,7 @@ class CommentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-        die("update");
+        return response(null, 200);
     }
 
     /**
@@ -88,7 +85,9 @@ class CommentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-        die("destroy");
+        if (auth()->user()->role == 'admin') {
+            Comment::destroy($id);
+            return redirect()->back();
+        } else abort(403, 'You are not allowed to delete this comment.');
     }
 }

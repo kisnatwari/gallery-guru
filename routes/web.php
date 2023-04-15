@@ -1,10 +1,11 @@
 <?php
 
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\ImageController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Route;
+use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,14 +19,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if (Auth::check())
+        return view('welcome');
+    else {
+        $posts = Post::all();
+        return view('guest-view')->with('posts', $posts);
+    }
 });
 
-use App\Models\Image; // Import the Image model
 
 Route::get('/dashboard', function () {
-    $images = Image::all(); // Retrieve all images from the database
-    return view('images.dashboard')->with('images', $images);
+    $posts = Post::all(); // Retrieve all images from the database
+    return view('posts.home')->with('posts', $posts);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
@@ -39,7 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('images', ImageController::class);
+Route::resource('posts', PostController::class);
 Route::resource('comments', CommentController::class);
 
 require __DIR__ . '/auth.php';
