@@ -15,6 +15,7 @@ class PostController extends Controller
     public function index()
     {
         //
+        return redirect("/dashboard");
     }
 
     /**
@@ -81,7 +82,6 @@ class PostController extends Controller
         $post['comments'] = $comments;
 
         Post::where('id', $id)->update(['views_count' => ++$post->views_count]);
-
         if (Auth::check()) {
             return view('posts.post-view', compact('post'));
         } else {
