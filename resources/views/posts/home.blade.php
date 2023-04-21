@@ -6,7 +6,7 @@
                     <div class="flex justify-between mb-3">
                         <h1 class="text-2xl">Image Gallery</h1>
                         <a href="/add" class="bg-gray-200 px-4 py-2 shadow-md rounded-md text-gray-700">
-                            <i class="fa fa-plus"></i> &nbsp;Add Posr
+                            <i class="fa fa-plus"></i> &nbsp;Add Image
                         </a>
                     </div>
                     <div class="grid grid-cols-4 gap-6">
